@@ -60,7 +60,7 @@ def register_all_coco(root="datasets"):
 
     for key, (image_root, json_file) in _PREDEFINED_SPLITS_DCU.items():
         # Assume pre-defined datasets live in `./datasets`.
-        register_text_instances(
+        register_coco_instances(
             key,
             metadata_dcu,
             os.path.join(root, json_file) if "://" not in json_file else json_file,
