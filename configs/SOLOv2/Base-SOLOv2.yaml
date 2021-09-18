@@ -1,5 +1,7 @@
 MODEL:
   META_ARCHITECTURE: "SOLOv2"
+  SOLOV2:
+    NUM_CLASSES: 3
   MASK_ON: True
   BACKBONE:
     NAME: "build_resnet_fpn_backbone"
