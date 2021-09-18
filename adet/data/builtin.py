@@ -15,6 +15,15 @@ _PREDEFINED_SPLITS_PIC = {
 metadata_pic = {
     "thing_classes": ["person"]
 }
+_PREDEFINED_SPLITS_DCU = {
+    "DCU_train": ("dcu/images", "dcu/annotations/v2.3.1_ann_train.json"),
+    "DCU_val": ("dcu/images", "dcu/annotations/v2.3.1_ann_val.json"),
+    "DCU_test": ("dcu/images", "dcu/annotations/v2.3.1_ann_test.json"),
+}
+
+metadata_dcu = {
+    "thing_classes": ['Illustration', 'Text', 'ScienceText']
+}
 
 _PREDEFINED_SPLITS_TEXT = {
     "totaltext_train": ("totaltext/train_images", "totaltext/train.json"),
@@ -41,6 +50,15 @@ def register_all_coco(root="datasets"):
             os.path.join(root, image_root),
         )
     for key, (image_root, json_file) in _PREDEFINED_SPLITS_TEXT.items():
+        # Assume pre-defined datasets live in `./datasets`.
+        register_text_instances(
+            key,
+            metadata_text,
+            os.path.join(root, json_file) if "://" not in json_file else json_file,
+            os.path.join(root, image_root),
+        )
+
+    for key, (image_root, json_file) in _PREDEFINED_SPLITS_DCU.items():
         # Assume pre-defined datasets live in `./datasets`.
         register_text_instances(
             key,
