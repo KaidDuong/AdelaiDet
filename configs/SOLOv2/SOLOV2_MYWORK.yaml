@@ -1,6 +1,6 @@
 _BASE_: "Base-SOLOv2.yaml"
 MODEL:
-  WEIGHTS: "detectron2://ImageNetPretrained/MSRA/R-50.pkl"
+  WEIGHTS: "http://minio.dev.ftech.ai/dcu-layout-latest-c76795d9/solov2_v0.0.0"
   PIXEL_MEAN: [248.78, 248.66, 248.60]
   PIXEL_STD: [30.47, 30.78, 30.91]
   BACKBONE:
