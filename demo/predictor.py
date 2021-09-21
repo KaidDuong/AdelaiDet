@@ -17,7 +17,7 @@ from adet.utils.visualizer import TextVisualizer
 
 
 class VisualizationDemo(object):
-    def __init__(self, cfg, instance_mode=ColorMode.SEGMETATION, parallel=False):
+    def __init__(self, cfg, instance_mode=ColorMode.SEGMENTATION, parallel=False):
         """
         Args:
             cfg (CfgNode):
