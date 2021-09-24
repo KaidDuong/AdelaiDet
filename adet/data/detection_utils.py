@@ -97,6 +97,7 @@ def build_augmentation(cfg, is_train):
         augmentation.append(T.RandomSaturation(intensity_min=0.5, intensity_max=1.5))
         augmentation.append(T.RandomBrightness(intensity_min=0.5, intensity_max=1.5))
         augmentation.append(T.RandomBrightness(intensity_min=0.5, intensity_max=1.5))
+        augmentation.append(T.RandomCrop(crop_type="relative_range", crop_size=[0.5, 0.95]))
         if cfg.INPUT.HFLIP_TRAIN:
             augmentation.append(T.RandomFlip())
 
