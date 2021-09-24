@@ -120,7 +120,7 @@ def gen_crop_transform_with_doc_instance(crop_size, image_size, instances):
     bbox = random.choice(instances)
     crop_size = np.asarray(crop_size, dtype=np.int32)
     h, w = image_size
-    x0 = int32((w - crop_size[1] + 1) / 2)
+    x0 = int((w - crop_size[1] + 1) / 2)
     y0 = bbox[1]
     crop_bottom_up_or_top_down = (crop_size[0] + y0) > h
     if crop_bottom_up_or_top_down: # bottom up
