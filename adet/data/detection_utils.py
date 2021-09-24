@@ -91,9 +91,14 @@ def build_augmentation(cfg, is_train):
 
     augmentation = []
     augmentation.append(T.ResizeShortestEdge(min_size, max_size, sample_style))
+    augmentation.append(T.RotationTransform(angle=[-10, 10]))
+    augmentation.append(T.RandomSaturation(intensity_min=0.5, intensity_max=1.5))
+    augmentation.append(T.RandomBrightness(intensity_min=0.5, intensity_max=1.5))
+    augmentation.append(T.RandomBrightness(intensity_min=0.5, intensity_max=1.5))
     if is_train:
         if cfg.INPUT.HFLIP_TRAIN:
             augmentation.append(T.RandomFlip())
+
         logger.info("Augmentations used in training: " + str(augmentation))
     return augmentation
 

@@ -1,6 +1,6 @@
 _BASE_: "Base-SOLOv2.yaml"
 MODEL:
-  WEIGHTS: "detectron2://ImageNetPretrained/MSRA/R-50.pkl"
+  WEIGHTS: "solov2_baseline.pth"
   PIXEL_MEAN: [248.78, 248.66, 248.60]
   PIXEL_STD: [30.47, 30.78, 30.91]
   BACKBONE:
@@ -18,10 +18,16 @@ SOLVER:
   IMS_PER_BATCH: 8
   CHECKPOINT_PERIOD: 4500
   LR_SCHEDULER_NAME: "WarmupCosineLR"
-  BASE_LR: 0.001
+  BASE_LR: 0.01
   STEPS: (40000, 60000)
   MAX_ITER: 62000
 INPUT:
+  MIN_SIZE_TRAIN: (416, 448, 480, 512, 544, 576, 608, 640, 672, 704, 736, 768, 800, 832, 864, 896, 928)
   RANDOM_FLIP: "none"
+  HFLIP_TRAIN: false
+  CROP:
+    ENABLED: true
+    SIZE: [0.5, 0.95]
+
 
 
