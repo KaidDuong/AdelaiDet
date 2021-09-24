@@ -129,6 +129,7 @@ def gen_crop_transform_with_doc_instance(crop_size, image_size, instances):
         indx = np.where(inses[:, 1] > (y0 - crop_size[0] ))[0][-1]
         ymin = instances[indx][1] + instances[indx][3]
         crop_size[0] = y0 - ymin
+        print(f"crop_size: {crop_size}")
         return T.CropTransform(*map(int, (x0, ymin, crop_size[1], crop_size[0])))
 
     else: # top down
@@ -137,6 +138,7 @@ def gen_crop_transform_with_doc_instance(crop_size, image_size, instances):
         indx = np.where(inses[:, 1] > (y0 + crop_size[0]))[0][0]
         ymax = instances[indx][1]
         crop_size[0] = ymax - y0
+        print(f"crop_size: {crop_size}")
         return T.CropTransform(*map(int, (x0, y0, crop_size[1], crop_size[0])))
 
 class RandomCropWithDocInstance(RandomCrop):
