@@ -149,7 +149,6 @@ class RandomCropWithDocInstance(RandomCrop):
             crop_instance (bool): if False, extend cropping boxes to avoid cropping instances
         """
         super().__init__(crop_type, crop_size)
-        self.crop_instance = crop_instance
         self.input_args = ("image", "boxes")
 
     def get_transform(self, img, boxes):
