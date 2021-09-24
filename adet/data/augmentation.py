@@ -126,7 +126,7 @@ def gen_crop_transform_with_doc_instance(crop_size, image_size, instances):
     if crop_bottom_up_or_top_down: # bottom up
         # find instance nearest that y0_ins < y0 - crop_size[0]
         inses = np.array(instances)  # create a structured array
-        indx = np.where(inses[:, 1] > (y0 - crop_size[0] ))[0][-1]
+        indx = np.where(inses[:, 1] < (y0 - crop_size[0]))[0][-1]
         ymin = instances[indx][1] + instances[indx][3]
         crop_size[0] = y0 - ymin
         print(f"crop_size: {crop_size}")
