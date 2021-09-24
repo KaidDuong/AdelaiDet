@@ -91,11 +91,12 @@ def build_augmentation(cfg, is_train):
 
     augmentation = []
     augmentation.append(T.ResizeShortestEdge(min_size, max_size, sample_style))
-    augmentation.append(T.RandomRotation(angle=[-10, 10]))
-    augmentation.append(T.RandomSaturation(intensity_min=0.5, intensity_max=1.5))
-    augmentation.append(T.RandomBrightness(intensity_min=0.5, intensity_max=1.5))
-    augmentation.append(T.RandomBrightness(intensity_min=0.5, intensity_max=1.5))
+
     if is_train:
+        augmentation.append(T.RandomRotation(angle=[-10, 10]))
+        augmentation.append(T.RandomSaturation(intensity_min=0.5, intensity_max=1.5))
+        augmentation.append(T.RandomBrightness(intensity_min=0.5, intensity_max=1.5))
+        augmentation.append(T.RandomBrightness(intensity_min=0.5, intensity_max=1.5))
         if cfg.INPUT.HFLIP_TRAIN:
             augmentation.append(T.RandomFlip())
 
