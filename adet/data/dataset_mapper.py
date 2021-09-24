@@ -66,10 +66,9 @@ class DatasetMapperWithBasis(DatasetMapper):
         if cfg.INPUT.CROP.ENABLED and is_train:
             self.augmentation.insert(
                 0,
-                RandomCropWithInstance(
+                RandomCropWithDocInstance(
                     cfg.INPUT.CROP.TYPE,
                     cfg.INPUT.CROP.SIZE,
-                    cfg.INPUT.CROP.CROP_INSTANCE,
                 ),
             )
             logging.getLogger(__name__).info(

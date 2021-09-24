@@ -106,3 +106,55 @@ class RandomCropWithInstance(RandomCrop):
         return gen_crop_transform_with_instance(
             crop_size, image_size, boxes, crop_box=self.crop_instance
         )
+def gen_crop_transform_with_doc_instance(crop_size, image_size, instances):
+    """
+    Generate a CropTransform so that the cropping region contains
+    the center of the given instance.
+
+    Args:
+        crop_size (tuple): h, w in pixels
+        image_size (tuple): h, w
+        instance (dict): an annotation dict of one instance, in Detectron2's
+            dataset format.
+    """
+    bbox = random.choice(instances)
+    crop_size = np.asarray(crop_size, dtype=np.int32)
+    h, w = image_size
+    x0 = int32((w - crop_size[1] + 1) / 2)
+    y0 = bbox[1]
+    crop_bottom_up_or_top_down = (crop_size[0] + y0) > h
+    if crop_bottom_up_or_top_down: # bottom up
+        # find instance nearest that y0_ins < y0 - crop_size[0]
+        inses = np.array(instances)  # create a structured array
+        indx = np.where(inses[:, 1] > (y0 - crop_size[0] ))[0][-1]
+        ymin = instances[indx][1] + instances[indx][3]
+        crop_size[0] = y0 - ymin
+        return T.CropTransform(*map(int, (x0, ymin, crop_size[1], crop_size[0])))
+
+    else: # top down
+        # find instance nearest that y0_ins > y0 + crop_size[0]
+        inses = np.array(instances)  # create a structured array
+        indx = np.where(inses[:, 1] > (y0 + crop_size[0]))[0][0]
+        ymax = instances[indx][1]
+        crop_size[0] = ymax - y0
+        return T.CropTransform(*map(int, (x0, y0, crop_size[1], crop_size[0])))
+
+class RandomCropWithDocInstance(RandomCrop):
+    """ Instance-aware cropping.
+    """
+
+    def __init__(self, crop_type, crop_size):
+        """
+        Args:
+            crop_instance (bool): if False, extend cropping boxes to avoid cropping instances
+        """
+        super().__init__(crop_type, crop_size)
+        self.crop_instance = crop_instance
+        self.input_args = ("image", "boxes")
+
+    def get_transform(self, img, boxes):
+        image_size = img.shape[:2]
+        crop_size = self.get_crop_size(image_size)
+        return gen_crop_transform_with_doc_instance(
+            crop_size, image_size, boxes,
+        )
