@@ -16,7 +16,7 @@ metadata_pic = {
     "thing_classes": ["person"]
 }
 _PREDEFINED_SPLITS_DCU = {
-    "DCU_train": ("dcu/images", "dcu/annotations/v2.3.1.2_ann_train.json"),
+    "DCU_train": ("dcu/images", "dcu/annotations/ann_v2.3.1_v2.4.0.json"),
     "DCU_val": ("dcu/images", "dcu/annotations/v2.3.1_ann_val.json"),
     "DCU_test": ("dcu/images", "dcu/annotations/v2.3.1_ann_test.json"),
 }
