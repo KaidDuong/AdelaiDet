@@ -41,7 +41,7 @@ from adet.data.dataset_mapper import DatasetMapperWithBasis
 from adet.config import get_cfg
 from adet.checkpoint import AdetCheckpointer
 from adet.evaluation import TextEvaluator
-
+from detectron2.data.datasets.register_coco import register_coco_instances
 
 class Trainer(DefaultTrainer):
     """
@@ -210,6 +210,26 @@ def main(args):
     If you'd like to do anything fancier than the standard training logic,
     consider writing your own training loop or subclassing the trainer.
     """
+    _PREDEFINED_SPLITS_DCU = {
+        "DCU_val": (args.dataset_images_path, f"{args.dataset_annotation_path}/val.json"),
+        "DCU_train": (args.dataset_images_path, f"{args.dataset_annotation_path}/training.json"),
+        "DCU_test": (args.dataset_images_path, f"{args.dataset_annotation_path}/test.json"),
+    }
+
+    metadata_dcu = {
+        "thing_classes": ['Illustration', 'Text', 'ScienceText']
+    }
+
+    # register datasets
+    for key, (image_root, json_file) in _PREDEFINED_SPLITS_DCU.items():
+        # Assume pre-defined datasets live in `./datasets`.
+        register_coco_instances(
+            key,
+            metadata_dcu,
+            json_file,
+            image_root,
+        )
+    # training
     trainer = Trainer(cfg)
     trainer.resume_or_load(resume=args.resume)
     if cfg.TEST.AUG.ENABLED:
@@ -220,7 +240,10 @@ def main(args):
 
 
 if __name__ == "__main__":
-    args = default_argument_parser().parse_args()
+    parser = default_argument_parser()
+    parser.add_argument("--dataset_annotation_path", type=str, default=None, help="path to the annotation file")
+    parser.add_argument("--dataset_images_path", type=str, default=None, help="path to the images file")
+    args = parser.parse_args()
     print("Command Line Args:", args)
     launch(
         main,
