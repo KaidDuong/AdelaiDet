@@ -211,9 +211,9 @@ def main(args):
     consider writing your own training loop or subclassing the trainer.
     """
     _PREDEFINED_SPLITS_DCU = {
-        "DCU_val": (args.dataset_images_path, f"{args.dataset_annotation_path}/val.json"),
-        "DCU_train": (args.dataset_images_path, f"{args.dataset_annotation_path}/training.json"),
-        "DCU_test": (args.dataset_images_path, f"{args.dataset_annotation_path}/test.json"),
+        "DCU_val": (args.dataset_images_path, f"{args.dataset_annotation_path}/val_original.json"),
+        "DCU_train": (args.dataset_images_path, f"{args.dataset_annotation_path}/training_original.json"),
+        "DCU_test": (args.dataset_images_path, f"{args.dataset_annotation_path}/test_original.json"),
     }
 
     metadata_dcu = {
