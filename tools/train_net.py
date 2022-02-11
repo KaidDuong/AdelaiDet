@@ -14,7 +14,8 @@ Therefore, we recommend you to use detectron2 as an library and take
 this file as an example of how to use the library.
 You may want to write your own script with your datasets and other customizations.
 """
-
+import wandb
+import yaml
 import logging
 import os
 from collections import OrderedDict
@@ -190,10 +191,10 @@ def setup(args):
 
     return cfg
 
-
 def main(args):
     cfg = setup(args)
-
+    cfg_wandb = yaml.safe_load(cfg.dump())
+    run = wandb.init(project="doc_layout", name="solov2_baseline", config=cfg, sync_tensorboard=True)
     if args.eval_only:
         model = Trainer.build_model(cfg)
         AdetCheckpointer(model, save_dir=cfg.OUTPUT_DIR).resume_or_load(
